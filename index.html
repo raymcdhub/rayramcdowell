@@ -1,0 +1,1796 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rayra McDowell — Business Analyst</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ============================================================
+       CSS CUSTOM PROPERTIES
+    ============================================================ */
+      :root {
+        --white: #ffffff;
+        --black: #111111;
+        --grey: #f5f5f5;
+        --grey-mid: #e0e0e0;
+        --grey-text: #666666;
+        --amber: #e8a020;
+        --font-display: "Times New Roman", Times, serif;
+        --font-body: "Montserrat", sans-serif;
+        --nav-h: 64px;
+        --max-w: 1140px;
+        --section-pad: 96px;
+      }
+
+      /* ============================================================
+       RESET & BASE
+    ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: var(--white);
+        color: var(--black);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      ul {
+        list-style: none;
+      }
+
+      /* ============================================================
+       UTILITY
+    ============================================================ */
+      .container {
+        width: 100%;
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+
+      .section {
+        padding: var(--section-pad) 0;
+      }
+
+      .section--grey {
+        background: var(--grey);
+      }
+
+      .eyebrow {
+        font-family: var(--font-body);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 16px;
+      }
+
+      .section-title {
+        font-family: var(--font-display);
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: normal;
+        line-height: 1.15;
+        color: var(--black);
+        margin-bottom: 24px;
+      }
+
+      .section-subtitle {
+        font-size: 16px;
+        color: var(--grey-text);
+        max-width: 560px;
+        line-height: 1.8;
+      }
+
+      /* ============================================================
+       SCROLL-IN ANIMATION
+    ============================================================ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.2s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.3s;
+      }
+      .reveal-delay-4 {
+        transition-delay: 0.4s;
+      }
+
+      /* ============================================================
+       NAVIGATION
+    ============================================================ */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--nav-h);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--grey-mid);
+        z-index: 1000;
+        transition: box-shadow 0.3s;
+      }
+      .nav.scrolled {
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+      }
+
+      .nav__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+      }
+
+      .nav__logo {
+        font-family: var(--font-display);
+        font-size: 20px;
+        letter-spacing: 0.01em;
+        color: var(--black);
+        font-style: italic;
+      }
+      .nav__logo span {
+        color: var(--amber);
+        font-style: normal;
+      }
+
+      .nav__links {
+        display: flex;
+        gap: 36px;
+        align-items: center;
+      }
+
+      .nav__links a {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--grey-text);
+        transition: color 0.2s;
+        position: relative;
+        padding-bottom: 2px;
+      }
+      .nav__links a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--amber);
+        transition: width 0.25s ease;
+      }
+      .nav__links a:hover,
+      .nav__links a.active {
+        color: var(--amber);
+      }
+      .nav__links a:hover::after,
+      .nav__links a.active::after {
+        width: 100%;
+      }
+
+      .nav__hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        background: none;
+        border: none;
+      }
+      .nav__hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--black);
+        transition: all 0.25s;
+      }
+
+      /* Mobile nav */
+      .nav__mobile {
+        display: none;
+        position: fixed;
+        top: var(--nav-h);
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--grey-mid);
+        padding: 24px 32px;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 999;
+      }
+      .nav__mobile.open {
+        display: flex;
+      }
+      .nav__mobile a {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--black);
+        transition: color 0.2s;
+      }
+      .nav__mobile a:hover {
+        color: var(--amber);
+      }
+
+      /* ============================================================
+       HERO
+    ============================================================ */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: var(--nav-h);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Decorative grid line */
+      .hero::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--grey-mid) 30%,
+          var(--grey-mid) 70%,
+          transparent
+        );
+        right: calc((100% - var(--max-w)) / 2 + 280px);
+      }
+
+      /* Large decorative letter */
+      .hero__deco {
+        position: absolute;
+        right: -40px;
+        bottom: -60px;
+        font-family: var(--font-display);
+        font-size: clamp(200px, 28vw, 420px);
+        color: rgba(232, 160, 32, 0.04);
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        font-style: italic;
+      }
+
+      .hero__inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero__pretitle {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--grey-text);
+        margin-bottom: 20px;
+        /* entrance animation */
+        opacity: 0;
+        animation: fadeUp 0.7s 0.2s ease forwards;
+      }
+
+      .hero__name {
+        font-family: var(--font-display);
+        font-size: clamp(52px, 9vw, 108px);
+        font-weight: normal;
+        line-height: 1;
+        color: var(--black);
+        margin-bottom: 8px;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.35s ease forwards;
+      }
+
+      .hero__name-accent {
+        display: block;
+        color: var(--amber);
+        font-style: italic;
+      }
+
+      .hero__tagline {
+        font-size: clamp(15px, 2vw, 19px);
+        font-weight: 400;
+        color: var(--grey-text);
+        margin-top: 20px;
+        margin-bottom: 44px;
+        max-width: 480px;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.5s ease forwards;
+      }
+
+      .hero__ctas {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.65s ease forwards;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 14px 32px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        border: none;
+        text-decoration: none;
+      }
+
+      .btn--primary {
+        background: var(--black);
+        color: var(--white);
+      }
+      .btn--primary:hover {
+        background: var(--amber);
+        color: var(--white);
+      }
+
+      .btn--outline {
+        background: transparent;
+        color: var(--black);
+        border: 1.5px solid var(--black);
+      }
+      .btn--outline:hover {
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+
+      .hero__scroll-hint {
+        position: absolute;
+        bottom: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fadeIn 0.7s 1.2s ease forwards;
+      }
+      .hero__scroll-hint span {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--grey-text);
+      }
+      .hero__scroll-arrow {
+        width: 1px;
+        height: 48px;
+        background: var(--grey-mid);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero__scroll-arrow::after {
+        content: "";
+        position: absolute;
+        top: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--amber);
+        animation: scrollLine 2s 1.5s ease-in-out infinite;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes scrollLine {
+        0% {
+          top: -100%;
+        }
+        100% {
+          top: 100%;
+        }
+      }
+
+      /* ============================================================
+       ABOUT
+    ============================================================ */
+      .about__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+
+      .about__left {
+      }
+
+      .about__right {
+        padding-top: 60px;
+      }
+
+      .about__text {
+        font-size: 16px;
+        color: var(--black);
+        line-height: 1.9;
+        margin-bottom: 20px;
+      }
+
+      .about__text strong {
+        font-weight: 600;
+      }
+
+      .about__divider {
+        width: 40px;
+        height: 2px;
+        background: var(--amber);
+        margin: 32px 0;
+      }
+
+      .about__credentials {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 8px;
+      }
+
+      .credential {
+        padding: 16px 20px;
+        border-left: 2px solid var(--grey-mid);
+        transition: border-color 0.2s;
+      }
+      .credential:hover {
+        border-color: var(--amber);
+      }
+
+      .credential__title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 2px;
+      }
+      .credential__sub {
+        font-size: 12px;
+        color: var(--grey-text);
+        letter-spacing: 0.03em;
+      }
+
+      /* ============================================================
+       SKILLS
+    ============================================================ */
+      .skills__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 48px;
+      }
+
+      .skill-tag {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border: 1.5px solid var(--grey-mid);
+        color: var(--black);
+        transition: all 0.22s ease;
+        cursor: default;
+      }
+      .skill-tag:hover {
+        border-color: var(--amber);
+        color: var(--amber);
+        background: rgba(246, 38, 129, 0.04);
+      }
+
+      /* ============================================================
+       CASE STUDIES
+    ============================================================ */
+      .case-studies__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        margin-top: 56px;
+      }
+
+      .cs-card {
+        background: var(--white);
+        border: 1px solid var(--grey-mid);
+        padding: 36px 32px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .cs-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: var(--amber);
+        transition: width 0.35s ease;
+      }
+      .cs-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+      }
+      .cs-card:hover::before {
+        width: 100%;
+      }
+
+      .cs-card__number {
+        font-family: var(--font-display);
+        font-size: 48px;
+        color: rgba(17, 17, 17, 0.07);
+        line-height: 1;
+        margin-bottom: 16px;
+        font-style: italic;
+      }
+
+      .cs-card__tag {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 10px;
+      }
+
+      .cs-card__title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: normal;
+        line-height: 1.3;
+        color: var(--black);
+        margin-bottom: 12px;
+      }
+
+      .cs-card__context {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--grey-text);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 16px;
+      }
+
+      .cs-card__excerpt {
+        font-size: 14px;
+        color: var(--grey-text);
+        line-height: 1.75;
+        margin-bottom: 24px;
+      }
+
+      .cs-card__tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+
+      .cs-tool-tag {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        background: var(--grey);
+        color: var(--grey-text);
+        border: 1px solid var(--grey-mid);
+      }
+
+      .modal__image {
+        width: 100%;
+        margin: 8px 0 4px;
+        border: 1px solid var(--grey-mid);
+      }
+
+      .modal__image-caption {
+        font-size: 11px;
+        color: var(--grey-text);
+        text-align: center;
+        margin-bottom: 8px;
+        letter-spacing: 0.03em;
+      }
+
+      .modal__tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .modal__tool-tag {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        background: var(--grey);
+        color: var(--grey-text);
+        border: 1px solid var(--grey-mid);
+      }
+      .cs-card__link {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--black);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+      }
+      .cs-card__link:hover {
+        color: var(--amber);
+      }
+      .cs-card__link::after {
+        content: "→";
+        transition: transform 0.2s;
+      }
+      .cs-card:hover .cs-card__link::after {
+        transform: translateX(4px);
+      }
+
+      /* ============================================================
+       MODAL
+    ============================================================ */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 17, 17, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--white);
+        width: 100%;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 56px;
+        position: relative;
+        animation: modalIn 0.3s ease;
+      }
+
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .modal__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey-text);
+        font-size: 20px;
+        transition: color 0.2s;
+      }
+      .modal__close:hover {
+        color: var(--amber);
+      }
+
+      .modal__label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 12px;
+      }
+
+      .modal__title {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: normal;
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+
+      .modal__context {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--grey-text);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--grey-mid);
+      }
+
+      .modal__section {
+        margin-bottom: 28px;
+      }
+
+      .modal__section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--black);
+        margin-bottom: 8px;
+      }
+
+      .modal__section-text {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--grey-text);
+      }
+
+      .modal__outcome {
+        background: var(--grey);
+        padding: 20px 24px;
+        border-left: 3px solid var(--amber);
+        margin-top: 8px;
+      }
+      .modal__outcome p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--black);
+      }
+
+      /* ============================================================
+       SERVICES
+    ============================================================ */
+      .services__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        margin-top: 56px;
+      }
+
+      .service-card {
+        background: var(--grey);
+        padding: 40px 32px;
+        transition: background 0.25s;
+      }
+      .service-card:hover {
+        background: var(--black);
+      }
+      .service-card:hover .service-card__icon {
+        color: var(--amber);
+      }
+      .service-card:hover .service-card__title {
+        color: var(--white);
+      }
+      .service-card:hover .service-card__text {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .service-card__icon {
+        font-size: 24px;
+        color: var(--amber);
+        margin-bottom: 20px;
+        transition: color 0.25s;
+      }
+
+      .service-card__title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: normal;
+        color: var(--black);
+        margin-bottom: 12px;
+        line-height: 1.2;
+        transition: color 0.25s;
+      }
+
+      .service-card__text {
+        font-size: 14px;
+        color: var(--grey-text);
+        line-height: 1.75;
+        transition: color 0.25s;
+      }
+
+      .services__note {
+        margin-top: 36px;
+        font-size: 13px;
+        color: var(--grey-text);
+        text-align: center;
+      }
+      .services__note a {
+        color: var(--amber);
+        font-weight: 600;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+      .services__note a:hover {
+        border-color: var(--amber);
+      }
+
+      /* ============================================================
+       CONTACT
+    ============================================================ */
+      .contact__inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+
+      .contact__left {
+      }
+
+      .contact__availability {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--black);
+        background: var(--grey);
+        padding: 8px 16px;
+        margin-top: 24px;
+        border-left: 3px solid var(--amber);
+      }
+
+      .contact__links {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 48px;
+      }
+
+      .contact__link {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--grey-mid);
+        transition: all 0.2s;
+        color: var(--black);
+      }
+      .contact__link:first-child {
+        border-top: 1px solid var(--grey-mid);
+      }
+      .contact__link:hover {
+        padding-left: 8px;
+      }
+      .contact__link:hover .contact__link-label {
+        color: var(--amber);
+      }
+
+      .contact__link-icon {
+        width: 36px;
+        font-size: 16px;
+        color: var(--grey-text);
+        flex-shrink: 0;
+      }
+
+      .contact__link-info {
+        flex: 1;
+      }
+
+      .contact__link-platform {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--grey-text);
+        margin-bottom: 2px;
+      }
+
+      .contact__link-label {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--black);
+        transition: color 0.2s;
+      }
+
+      .contact__link-arrow {
+        font-size: 16px;
+        color: var(--grey-mid);
+        transition: all 0.2s;
+      }
+      .contact__link:hover .contact__link-arrow {
+        color: var(--amber);
+        transform: translateX(4px);
+      }
+
+      /* ============================================================
+       FOOTER
+    ============================================================ */
+      .footer {
+        padding: 28px 0;
+        border-top: 1px solid var(--grey-mid);
+      }
+
+      .footer__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .footer__copy {
+        font-size: 12px;
+        color: var(--grey-text);
+        letter-spacing: 0.04em;
+      }
+
+      .footer__made {
+        font-size: 12px;
+        color: var(--grey-mid);
+      }
+
+      /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+      @media (max-width: 900px) {
+        :root {
+          --section-pad: 72px;
+        }
+
+        .nav__links {
+          display: none;
+        }
+        .nav__hamburger {
+          display: flex;
+        }
+
+        .about__grid,
+        .contact__inner {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+        .about__right {
+          padding-top: 0;
+        }
+
+        .case-studies__grid,
+        .services__grid {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+
+        .hero::before {
+          display: none;
+        }
+      }
+
+      @media (max-width: 600px) {
+        :root {
+          --section-pad: 56px;
+        }
+        .container {
+          padding: 0 20px;
+        }
+
+        .modal {
+          padding: 32px 24px;
+        }
+
+        .hero__ctas {
+          flex-direction: column;
+        }
+        .btn {
+          justify-content: center;
+        }
+
+        .footer__inner {
+          flex-direction: column;
+          gap: 8px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav__inner">
+          <a href="#hero" class="nav__logo">Rayra <span>McDowell</span></a>
+
+          <ul class="nav__links" id="navLinks">
+            <li><a href="#about" data-section="about">About</a></li>
+            <li><a href="#skills" data-section="skills">Skills</a></li>
+            <li>
+              <a href="#case-studies" data-section="case-studies">Work</a>
+            </li>
+            <li><a href="#services" data-section="services">Services</a></li>
+            <li><a href="#contact" data-section="contact">Contact</a></li>
+          </ul>
+
+          <button
+            class="nav__hamburger"
+            id="hamburger"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile nav -->
+    <div class="nav__mobile" id="mobileNav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#case-studies">Work</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <!-- ============================================================
+       HERO
+  ============================================================ -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero__inner">
+          <p class="hero__pretitle">
+            Dublin, Ireland &nbsp;·&nbsp; Business Analyst &amp; Operations
+            Intelligence Consultant
+          </p>
+          <h1 class="hero__name">
+            Rayra
+            <span class="hero__name-accent">McDowell.</span>
+          </h1>
+          <p class="hero__tagline">
+            I help businesses identify where they're losing time and money, and
+            build the systems to fix it.
+          </p>
+          <div class="hero__ctas">
+            <a href="#case-studies" class="btn btn--primary">View My Work</a>
+            <a href="#" class="btn btn--outline" download
+              ><!-- [PLACEHOLDER: replace href with actual CV file path] -->Download
+              CV</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__deco" aria-hidden="true">R</div>
+
+      <div class="hero__scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="hero__scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about__grid">
+          <div class="about__left">
+            <p class="eyebrow reveal">About</p>
+            <h2 class="section-title reveal reveal-delay-1">
+              The Business–<br />Technology Gap<br />is my territory.
+            </h2>
+            <div class="about__divider reveal reveal-delay-2"></div>
+            <p class="about__text reveal reveal-delay-2">
+              I hold a <strong>BA (Hons) in Business</strong> and a
+              <strong>Higher Diploma in Science in Computing</strong> — both NFQ
+              Level 8 — from CCT College Dublin, alongside diplomas in Python
+              and Predictive Analytics. That combination isn't accidental. I
+              built it to sit exactly where business decisions meet technical
+              execution.
+            </p>
+            <p class="about__text reveal reveal-delay-3">
+              My work spans process analysis, requirements gathering, AI
+              automation, and stakeholder management. I'm equally comfortable
+              translating a boardroom problem into a technical brief and
+              translating a technical constraint back into a business decision.
+            </p>
+            <p class="about__text reveal reveal-delay-4">
+              I'm less interested in executing instructions than in asking
+              whether those instructions are the right ones. My focus is
+              business judgment, identifying what's worth building, what problem
+              it actually solves, and what the trade-offs are. That's where the
+              real value gets created.
+            </p>
+          </div>
+
+          <div class="about__right">
+            <p class="eyebrow reveal">Credentials</p>
+            <div class="about__credentials">
+              <div class="credential reveal reveal-delay-1">
+                <p class="credential__title">
+                  BA (Hons) in Business — NFQ Level 8
+                </p>
+                <p class="credential__sub">CCT College Dublin</p>
+              </div>
+              <div class="credential reveal reveal-delay-2">
+                <p class="credential__title">
+                  Higher Diploma in Science in Computing — NFQ Level 8
+                </p>
+                <p class="credential__sub">CCT College Dublin</p>
+              </div>
+              <div class="credential reveal reveal-delay-3">
+                <p class="credential__title">Diploma in Python Programming</p>
+                <p class="credential__sub">
+                  <!-- [PLACEHOLDER: Institution name] -->
+                </p>
+              </div>
+              <div class="credential reveal reveal-delay-4">
+                <p class="credential__title">Diploma in Predictive Analytics</p>
+                <p class="credential__sub">
+                  <!-- [PLACEHOLDER: Institution name] -->
+                </p>
+              </div>
+              <div class="credential reveal reveal-delay-4">
+                <p class="credential__title">Volunteer Business Analyst</p>
+                <p class="credential__sub">
+                  THE HomeShare | Feb 2025 - Ongoing
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       SKILLS & TOOLS
+  ============================================================ -->
+    <section class="section section--grey" id="skills">
+      <div class="container">
+        <p class="eyebrow reveal">Skills &amp; Tools</p>
+        <h2 class="section-title reveal reveal-delay-1">What I work with.</h2>
+        <p class="section-subtitle reveal reveal-delay-2">
+          A toolkit built for the intersection of process, AI, data, and
+          automation.
+        </p>
+
+        <div class="skills__grid">
+          <span class="skill-tag reveal">Business Analysis</span>
+          <span class="skill-tag reveal reveal-delay-1">Process Mapping</span>
+          <span class="skill-tag reveal reveal-delay-1"
+            >Requirements Gathering</span
+          >
+          <span class="skill-tag reveal reveal-delay-2">Agile / Scrum</span>
+          <span class="skill-tag reveal reveal-delay-2">Automation</span>
+          <span class="skill-tag reveal reveal-delay-3">Microsoft 365</span>
+          <span class="skill-tag reveal reveal-delay-3">AI Automation</span>
+          <span class="skill-tag reveal reveal-delay-4">Python</span>
+          <span class="skill-tag reveal reveal-delay-4">Data Analysis</span>
+          <span class="skill-tag reveal">Stakeholder Management</span>
+          <span class="skill-tag reveal reveal-delay-1"
+            >Project Management</span
+          >
+          <span class="skill-tag reveal reveal-delay-2"
+            >Business Intelligence & Reporting</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       CASE STUDIES
+  ============================================================ -->
+    <section class="section" id="case-studies">
+      <div class="container">
+        <p class="eyebrow reveal">Selected Work</p>
+        <h2 class="section-title reveal reveal-delay-1">Case Studies.</h2>
+        <p class="section-subtitle reveal reveal-delay-2">
+          Real problems with measurable outcomes.
+        </p>
+
+        <div class="case-studies__grid">
+          <!-- Card 01 -->
+          <article class="cs-card reveal" onclick="openModal('modal-01')">
+            <div class="cs-card__number">01</div>
+            <p class="cs-card__tag">Workflow Automation</p>
+            <h3 class="cs-card__title">Daft Auto-Reply — THE HomeShare</h3>
+            <p class="cs-card__context">
+              Non-profit, Dublin · Volunteer BA Engagement
+            </p>
+            <p class="cs-card__excerpt">
+              THE HomeShare was manually copy-pasting a response template into
+              every single enquiry from Daft.ie. With ~50 enquiries a day across
+              two staff members, that was close to two hours of repetitive work
+              — every day — that added no value to anyone.
+            </p>
+            <div class="cs-card__tools">
+              <span class="cs-tool-tag">Power Automate</span>
+              <span class="cs-tool-tag">MS Outlook</span>
+              <span class="cs-tool-tag">OneDrive</span>
+              <span class="cs-tool-tag">HTML</span>
+            </div>
+            <span class="cs-card__link">Read Case Study</span>
+          </article>
+
+          <!-- Card 02 -->
+          <article
+            class="cs-card reveal reveal-delay-1"
+            onclick="openModal('modal-02')"
+          >
+            <div class="cs-card__number">02</div>
+            <p class="cs-card__tag">AI Automation</p>
+            <h3 class="cs-card__title">
+              <!-- [PLACEHOLDER: Case Study 02 Title] -->
+              Automating Repetitive Reporting
+            </h3>
+            <p class="cs-card__context">
+              <!-- [PLACEHOLDER: Client/Context] -->
+              SME, Professional Services
+            </p>
+            <p class="cs-card__excerpt">
+              <!-- [PLACEHOLDER: 2–3 sentence summary] -->
+              A small professional services firm was spending 6–8 hours per week
+              manually compiling status reports from multiple data sources. The
+              process was inconsistent and left little time for actual analysis.
+            </p>
+            <span class="cs-card__link">Read Case Study</span>
+          </article>
+
+          <!-- Card 03 -->
+          <article
+            class="cs-card reveal reveal-delay-2"
+            onclick="openModal('modal-03')"
+          >
+            <div class="cs-card__number">03</div>
+            <p class="cs-card__tag">Market Validation</p>
+            <h3 class="cs-card__title">
+              <!-- [PLACEHOLDER: Case Study 03 Title] -->
+              Validating a SaaS Product Before Building
+            </h3>
+            <p class="cs-card__context">
+              <!-- [PLACEHOLDER: Client/Context] -->
+              Startup, Early Stage
+            </p>
+            <p class="cs-card__excerpt">
+              <!-- [PLACEHOLDER: 2–3 sentence summary] -->
+              An early-stage founder had a detailed product spec and was ready
+              to begin development. The foundational question — whether the
+              target market actually had this problem at sufficient scale — had
+              not been answered.
+            </p>
+            <span class="cs-card__link">Read Case Study</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+    <section class="section section--grey" id="services">
+      <div class="container">
+        <p class="eyebrow reveal">Services</p>
+        <h2 class="section-title reveal reveal-delay-1">How I engage.</h2>
+        <p class="section-subtitle reveal reveal-delay-2">
+          Three ways to work together — from diagnosis to ongoing execution.
+        </p>
+
+        <div class="services__grid">
+          <div class="service-card reveal">
+            <div class="service-card__icon">◈</div>
+            <h3 class="service-card__title">Operational Audit</h3>
+            <p class="service-card__text">
+              Identify where your business is losing time and money. A
+              structured review of your processes, tools, and data flows — with
+              a clear prioritised report of what to fix first.
+            </p>
+          </div>
+
+          <div class="service-card reveal reveal-delay-1">
+            <div class="service-card__icon">◈</div>
+            <h3 class="service-card__title">Automation Implementation</h3>
+            <p class="service-card__text">
+              Build and deploy the systems that fix it. From Power Automate
+              workflows to AI-assisted pipelines — scoped, documented, and
+              handed over properly.
+            </p>
+          </div>
+
+          <div class="service-card reveal reveal-delay-2">
+            <div class="service-card__icon">◈</div>
+            <h3 class="service-card__title">Ongoing Support</h3>
+            <p class="service-card__text">
+              Managed automation and continuous improvement. Monthly retainer
+              for businesses that want a dedicated operations and technology
+              partner, not a one-off consultant.
+            </p>
+          </div>
+        </div>
+
+        <p class="services__note reveal">
+          <a href="https://orionstrategy.com" target="_blank" rel="noopener"
+            ><!-- [PLACEHOLDER: replace with live Orion domain] --></a
+          >
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact__inner">
+          <div class="contact__left">
+            <p class="eyebrow reveal">Get in Touch</p>
+            <h2 class="section-title reveal reveal-delay-1">
+              Let's work<br />together.
+            </h2>
+            <p class="section-subtitle reveal reveal-delay-2">
+              Whether you're hiring or building — I'd like to hear about it.
+            </p>
+            <div class="contact__availability reveal reveal-delay-3">
+              Open to Business Analyst, Operations Intelligence and Process
+              Improvement roles in Dublin.
+            </div>
+          </div>
+
+          <div class="contact__links reveal reveal-delay-2">
+            <a href="mailto:hello@rayramcdowell.com" class="contact__link">
+              <!-- [PLACEHOLDER: replace with actual email address] -->
+              <span class="contact__link-icon">✉</span>
+              <div class="contact__link-info">
+                <p class="contact__link-platform">Email</p>
+                <p class="contact__link-label">hello@rayramcdowell.com</p>
+              </div>
+              <span class="contact__link-arrow">→</span>
+            </a>
+
+            <a
+              href="https://linkedin.com/in/raemcdowell"
+              target="_blank"
+              rel="noopener"
+              class="contact__link"
+            >
+              <!-- [PLACEHOLDER: replace with actual LinkedIn URL] -->
+              <span class="contact__link-icon">in</span>
+              <div class="contact__link-info">
+                <p class="contact__link-platform">LinkedIn</p>
+                <p class="contact__link-label">linkedin.com/in/raemcdowell</p>
+              </div>
+              <span class="contact__link-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__inner">
+          <p class="footer__copy">© 2026 Rayra McDowell</p>
+          <p class="footer__made">Dublin, Ireland</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ============================================================
+       MODALS — CASE STUDIES
+  ============================================================ -->
+
+    <!-- Modal 01 — Daft Auto-Reply -->
+    <div
+      class="modal-overlay"
+      id="modal-01"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-01-title"
+      onclick="closeModalOnOverlay(event, 'modal-01')"
+    >
+      <div class="modal">
+        <button
+          class="modal__close"
+          onclick="closeModal('modal-01')"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <p class="modal__label">Case Study 01 — Workflow Automation</p>
+        <h2 class="modal__title" id="modal-01-title">
+          Daft Auto-Reply — THE HomeShare
+        </h2>
+        <p class="modal__context">
+          Non-profit organisation, Dublin · Volunteer Business Analyst
+          Engagement · Ongoing
+        </p>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Tools Used</p>
+          <div class="modal__tools">
+            <span class="modal__tool-tag">Power Automate</span>
+            <span class="modal__tool-tag">MS Outlook</span>
+            <span class="modal__tool-tag">OneDrive</span>
+            <span class="modal__tool-tag">HTML</span>
+            <span class="modal__tool-tag">Confluence</span>
+            <span class="modal__tool-tag">Lucidchart</span>
+          </div>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">The Problem</p>
+          <p class="modal__section-text">
+            THE HomeShare receives a high volume of accommodation enquiries
+            through Daft.ie every day. Each enquiry triggers an email
+            notification to a shared inbox — and until this project, someone on
+            the team had to open each one individually, copy a standard response
+            template, paste it into a reply, and send it manually.
+          </p>
+          <p class="modal__section-text" style="margin-top: 12px">
+            With approximately 50 enquiries arriving per day across two staff
+            members, that process was consuming close to two hours of working
+            time — every single day — on a task that required zero judgement and
+            delivered no additional value to the applicant.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Analysis &amp; Approach</p>
+          <p class="modal__section-text">
+            Before building anything, I assessed the organisation's existing
+            technology environment. THE HomeShare already operated entirely
+            within Microsoft 365 — Outlook, OneDrive, and Teams. That ruled out
+            third-party automation platforms like Make or Zapier: introducing a
+            new paid tool for a process this well-defined would have added cost,
+            a dependency, and a maintenance burden that the team would have to
+            manage themselves.
+          </p>
+          <p class="modal__section-text" style="margin-top: 12px">
+            The better answer was Power Automate, already included in their
+            Microsoft licence. I designed and built a six-step automated flow:
+            triggered by any new email arriving from noreply@daft.ie, it
+            converts the HTML email body to plain text for parsing, extracts the
+            enquirer's first name and email address, retrieves a pre-formatted
+            HTML reply template from OneDrive, sends a personalised
+            acknowledgement to the enquirer, and marks the original email as
+            read to keep the inbox clean.
+          </p>
+          <p class="modal__section-text" style="margin-top: 12px">
+            I documented the full workflow in Confluence and produced a process
+            diagram in Lucidchart so that any team member — or future staff
+            member — can understand, maintain, or adapt the flow without needing
+            to contact me.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Workflow Diagram</p>
+          <img
+            src="Daft_Reply_Workflow.png"
+            alt="Daft Auto-Reply Power Automate workflow diagram"
+            class="modal__image"
+            onerror="this.style.display = 'none'"
+          />
+          <p class="modal__image-caption">
+            Process diagram produced in Lucidchart and documented in Confluence
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Outcome</p>
+          <div class="modal__outcome">
+            <p>
+              The manual copy-paste process no longer exists. Every Daft.ie
+              enquiry now receives an immediate, correctly formatted response
+              without any human involvement. Based on ~50 daily enquiries at
+              roughly one minute per reply, the automation saves the team an
+              estimated two hours of repetitive work per day.
+            </p>
+            <p style="margin-top: 12px">
+              Critically, the solution is owned entirely by the organisation. It
+              runs on infrastructure they already pay for, it's documented so
+              anyone can maintain it, and it can be modified — or switched off —
+              by any team member with access to their Microsoft environment. No
+              external dependency. No ongoing licence cost. No black box.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 02 -->
+    <div
+      class="modal-overlay"
+      id="modal-02"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-02-title"
+      onclick="closeModalOnOverlay(event, 'modal-02')"
+    >
+      <div class="modal">
+        <button
+          class="modal__close"
+          onclick="closeModal('modal-02')"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <p class="modal__label">Case Study 02 — AI Automation</p>
+        <h2 class="modal__title" id="modal-02-title">
+          <!-- [PLACEHOLDER: Full title] -->
+          Automating Repetitive Reporting
+        </h2>
+        <p class="modal__context">
+          <!-- [PLACEHOLDER: Client/Context detail] -->
+          SME, Professional Services · Automation Implementation Engagement
+        </p>
+
+        <div class="modal__section">
+          <p class="modal__section-label">The Problem</p>
+          <p class="modal__section-text">
+            <!-- [PLACEHOLDER: Describe the problem] -->
+            A small firm was spending 6–8 hours per week manually compiling
+            status reports by pulling data from CRM, project management, and
+            billing systems into a single spreadsheet. The process introduced
+            inconsistencies each week and left senior staff with insufficient
+            time for analysis and client communication.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Analysis &amp; Approach</p>
+          <p class="modal__section-text">
+            <!-- [PLACEHOLDER: Describe your methodology] -->
+            Mapped the current reporting workflow end-to-end, documenting data
+            sources, transformation steps, and distribution logic. Assessed
+            automation feasibility across three tooling options. Designed and
+            implemented a Power Automate workflow with scheduled data pulls,
+            consolidation logic, and automated distribution, with full
+            documentation for handover.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Outcome</p>
+          <div class="modal__outcome">
+            <p>
+              <!-- [PLACEHOLDER: Result] -->
+              Weekly reporting time reduced from 6–8 hours to under 20 minutes.
+              The automation has been running without manual intervention for
+              three months. Senior staff report using the reclaimed time
+              primarily for client-facing work.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 03 -->
+    <div
+      class="modal-overlay"
+      id="modal-03"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-03-title"
+      onclick="closeModalOnOverlay(event, 'modal-03')"
+    >
+      <div class="modal">
+        <button
+          class="modal__close"
+          onclick="closeModal('modal-03')"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <p class="modal__label">Case Study 03 — Market Validation</p>
+        <h2 class="modal__title" id="modal-03-title">
+          <!-- [PLACEHOLDER: Full title] -->
+          Validating a SaaS Product Before Building
+        </h2>
+        <p class="modal__context">
+          <!-- [PLACEHOLDER: Client/Context detail] -->
+          Early-stage startup · Pre-build validation engagement
+        </p>
+
+        <div class="modal__section">
+          <p class="modal__section-label">The Problem</p>
+          <p class="modal__section-text">
+            <!-- [PLACEHOLDER: Describe the problem] -->
+            A founder with a fully-scoped product spec was preparing to begin a
+            4-month development sprint. A structured analysis of market size,
+            competitive positioning, and buyer willingness-to-pay had not been
+            conducted. The risk of building the wrong product — or the right
+            product for a market that wouldn't pay for it — was significant.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Analysis &amp; Approach</p>
+          <p class="modal__section-text">
+            <!-- [PLACEHOLDER: Describe your methodology] -->
+            Facilitated a structured validation exercise: competitor landscape
+            mapping, ICP definition, assumption identification, and a series of
+            8 problem-interview conversations with potential buyers. Synthesised
+            findings into a validation report with a clear build / don't build /
+            pivot recommendation and supporting rationale.
+          </p>
+        </div>
+
+        <div class="modal__section">
+          <p class="modal__section-label">Outcome</p>
+          <div class="modal__outcome">
+            <p>
+              <!-- [PLACEHOLDER: Result] -->
+              Validation revealed that the core pain point was real but that the
+              intended buyer segment lacked budget authority. Recommended a
+              pivot to a different decision-maker within the same organisation.
+              Founder restructured the product pitch and go-to-market before
+              committing to development.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+    <script>
+      /* ---- Navigation: scroll shadow ---- */
+      const nav = document.getElementById("nav");
+      window.addEventListener(
+        "scroll",
+        () => {
+          nav.classList.toggle("scrolled", window.scrollY > 10);
+        },
+        { passive: true },
+      );
+
+      /* ---- Navigation: active section highlight ---- */
+      const sections = document.querySelectorAll("section[id]");
+      const navLinkEls = document.querySelectorAll(
+        ".nav__links a[data-section]",
+      );
+
+      function updateActiveNav() {
+        let current = "";
+        sections.forEach((section) => {
+          const top = section.getBoundingClientRect().top;
+          if (top <= 100) current = section.id;
+        });
+        navLinkEls.forEach((link) => {
+          link.classList.toggle("active", link.dataset.section === current);
+        });
+      }
+      window.addEventListener("scroll", updateActiveNav, { passive: true });
+      updateActiveNav();
+
+      /* ---- Mobile hamburger ---- */
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+
+      // Close mobile nav on link click
+      mobileNav.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", false);
+        });
+      });
+
+      /* ---- Scroll reveal ---- */
+      const revealEls = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      );
+
+      revealEls.forEach((el) => revealObserver.observe(el));
+
+      /* ---- Modals ---- */
+      function openModal(id) {
+        const overlay = document.getElementById(id);
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+
+        // Trap focus on close button
+        const closeBtn = overlay.querySelector(".modal__close");
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      function closeModalOnOverlay(event, id) {
+        if (event.target === document.getElementById(id)) closeModal(id);
+      }
+
+      // Close on Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.querySelectorAll(".modal-overlay.open").forEach((m) => {
+            closeModal(m.id);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
